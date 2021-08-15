@@ -1,0 +1,5 @@
+elasticsearch/
+filebeat/
+kibana/
+logstash/
+kafka/
