@@ -26,7 +26,7 @@ helm repo update
 2. clone the repo
 
 ```
-git clone
+git clone https://github.com/AhmedMojahed/elk-stack.git
 cd elk-stack
 ```
 
