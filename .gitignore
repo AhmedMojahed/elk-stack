@@ -3,3 +3,5 @@ filebeat/
 kibana/
 logstash/
 kafka/
+fluentd/
+fluent-bit/
