@@ -29,19 +29,21 @@ daemonset:
   filebeatConfig:
     filebeat.yml: |
       filebeat.inputs:
-        provider:
-          - type: kubernetes
-            template:
-              - condition:
-                  equals:
-                    kubernetes.namespace: default
-                config:
-                  - type: contaienr
-                    paths:
-                      - /var/logs/containers/*-{data.kubernetes.container.id}.log
+      - type: container
+        paths: 
+          - '/var/logs/containers/*.log'
       output.logstash:
-        hosts:
-          - "logstash-logstash-headless:9600"
+        hosts: ["logstash-logstash:9600"]
+    # provider:
+    #   - type: kubernetes
+    #     template:
+    #       - condition:
+    #           equals:
+    #             kubernetes.namespace: default
+    #       - config:
+    #           - type: contaienr
+    #             paths:
+    #               - /var/logs/containers/*-{data.kubernetes.container.id}.log
   # Only used when updateStrategy is set to "RollingUpdate"
   maxUnavailable: 1
   nodeSelector: {}
@@ -161,7 +163,7 @@ livenessProbe:
         #!/usr/bin/env bash -e
         curl --fail 127.0.0.1:5066
   failureThreshold: 3
-  initialDelaySeconds: 10
+  initialDelaySeconds: 60
   periodSeconds: 10
   timeoutSeconds: 5
 

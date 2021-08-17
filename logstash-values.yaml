@@ -8,14 +8,13 @@ replicas: 1
 # to make default probes work.
 logstashConfig:
   logstash.yml: |
+    http.host: 0.0.0.0
     input:
       beats:
         port: 5044
-        hosts: 0.0.0.0/0
     output:
       elasticsearch:
-        hosts:
-          - 'elasticsearch-master:9200'
+        hosts: ['elasticsearch-master:9200']
 #  log4j2.properties: |
 #    key = value
 
@@ -227,24 +226,29 @@ terminationGracePeriod: 120
 #      - localhost:9600
 
 livenessProbe:
-  httpGet:
-    path: /
-    port: http
-  initialDelaySeconds: 300
-  periodSeconds: 10
-  timeoutSeconds: 5
-  failureThreshold: 3
-  successThreshold: 1
+  null
+  # httpGet:
+  #   path: /
+  #   port: http
+  # initialDelaySeconds: 60
+  # # periodSeconds: 10
+  # timeoutSeconds: 30
+  # failureThreshold: 3
+  # successThreshold: 1
 
 readinessProbe:
-  httpGet:
-    path: /
-    port: http
-  initialDelaySeconds: 60
-  periodSeconds: 10
-  timeoutSeconds: 5
-  failureThreshold: 3
-  successThreshold: 3
+  httpGet: null
+  exec:
+    command:
+      - curl
+      - localhost:9600
+  #   path: /
+  #   port: http
+  # initialDelaySeconds: 60
+  # # periodSeconds: 10
+  # timeoutSeconds: 30
+  # # failureThreshold: 3
+  # successThreshold: 3
 
 ## Use an alternate scheduler.
 ## ref: https://kubernetes.io/docs/tasks/administer-cluster/configure-multiple-schedulers/
